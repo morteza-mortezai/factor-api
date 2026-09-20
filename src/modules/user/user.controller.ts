@@ -10,24 +10,4 @@ export class UserController {
   findAll(@Query() filters: PersonListQueryDto) {
     return this.userService.findAll(filters);
   }
-
-  @Get('certificates')
-  findAllCertificates() {
-    return this.userService.findAllCertificates();
-  }
-
-  @Get('languages')
-  findAllLanguages() {
-    return this.userService.findAllLanguages();
-  }
-
-  @Get('interests')
-  findAllInterests() {
-    return this.userService.findAllInterests();
-  }
-
-  @Get('skills')
-  findAllSkills() {
-    return this.userService.findAllSkills();
-  }
 }

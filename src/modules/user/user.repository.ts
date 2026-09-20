@@ -1,15 +1,6 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject, Injectable } from '@nestjs/common';
-
 import { User } from './entities/user.entity';
-import { PersonCertificateRelation } from './entities/person-certificate-relation.entity';
-import { PersonCountryRelation } from './entities/person-country-relation.entity';
-import { PersonInterestRelation } from './entities/person-interest-relation.entity';
-import { PersonSkillRelation } from './entities/person-skill-relation.entity';
-import { Skill } from './entities/skill.entity';
-import { Interest } from './entities/interest.entity';
-import { Certificate } from './entities/certificate.entity';
-import { Language } from './entities/language.entity';
 
 export interface PersonListFilters {
   search?: string;
@@ -59,11 +50,8 @@ export class UserRepository {
     if (search) {
       qb.andWhere({
         $or: [
-          { fullName: { $ilike: `%${search}%` } },
           { firstName: { $ilike: `%${search}%` } },
           { lastName: { $ilike: `%${search}%` } },
-          { workMail: { $ilike: `%${search}%` } },
-          { summary: { $ilike: `%${search}%` } },
         ],
       });
     }
@@ -78,76 +66,22 @@ export class UserRepository {
     }
 
     /*
-     * Skill
-     */
-    if (filters.skillId) {
-      const subQuery = this.entityManager
-        .createQueryBuilder(PersonSkillRelation, 'ps')
-        .select('ps.person')
-        .where({
-          skill: filters.skillId,
-        });
-
-      qb.andWhere({
-        id: {
-          $in: subQuery,
-        },
-      });
-    }
-
-    /*
-     * Interest
-     */
-    if (filters.interestId) {
-      const subQuery = this.entityManager
-        .createQueryBuilder(PersonInterestRelation, 'pi')
-        .select('pi.person')
-        .where({
-          interest: filters.interestId,
-        });
-
-      qb.andWhere({
-        id: {
-          $in: subQuery,
-        },
-      });
-    }
-
-    /*
-     * Certificate
-     */
-    if (filters.certificateId) {
-      const subQuery = this.entityManager
-        .createQueryBuilder(PersonCertificateRelation, 'pc')
-        .select('pc.person')
-        .where({
-          certificate: filters.certificateId,
-        });
-
-      qb.andWhere({
-        id: {
-          $in: subQuery,
-        },
-      });
-    }
-
-    /*
      * Country
      */
-    if (filters.countryId) {
-      const subQuery = this.entityManager
-        .createQueryBuilder(PersonCountryRelation, 'pco')
-        .select('pco.person')
-        .where({
-          country: filters.countryId,
-        });
+    // if (filters.countryId) {
+    //   const subQuery = this.entityManager
+    //     .createQueryBuilder(PersonCountryRelation, 'pco')
+    //     .select('pco.person')
+    //     .where({
+    //       country: filters.countryId,
+    //     });
 
-      qb.andWhere({
-        id: {
-          $in: subQuery,
-        },
-      });
-    }
+    //   qb.andWhere({
+    //     id: {
+    //       $in: subQuery,
+    //     },
+    //   });
+    // }
 
     /*
      * Cursor pagination
@@ -176,25 +110,5 @@ export class UserRepository {
         nextCursor,
       },
     };
-  }
-
-  findAllCertificates() {
-    return this.entityManager.find(Certificate, {}, { fields: ['id', 'name'] });
-  }
-
-  findAllLanguages() {
-    return this.entityManager.find(Language, {}, { fields: ['id', 'name'] });
-  }
-
-  findAllInterests() {
-    return this.entityManager.find(
-      Interest,
-      {},
-      { fields: ['id', 'interest'] },
-    );
-  }
-
-  findAllSkills() {
-    return this.entityManager.find(Skill, {}, { fields: ['id', 'skill'] });
   }
 }
