@@ -7,8 +7,14 @@ export class Company {
   @PrimaryKey()
   id = ulid();
 
-  @Property()
+  @Property({ type: 'string' })
   legalName!: string;
+
+  @Property({ type: 'string', nullable: true })
+  address?: string;
+
+  @Property({ type: 'string', nullable: true })
+  phone?: string;
 
   @OneToOne(() => Customer, (customer) => customer.company, {
     nullable: false,

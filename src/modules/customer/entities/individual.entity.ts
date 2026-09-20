@@ -13,6 +13,12 @@ export class Individual {
   @Property()
   lastName!: string;
 
+  @Property({ type: 'string', nullable: true })
+  address?: string;
+
+  @Property({ type: 'string', nullable: true })
+  phone?: string;
+
   @OneToOne(() => Customer, (customer) => customer.company, {
     deleteRule: 'cascade',
     nullable: true,
