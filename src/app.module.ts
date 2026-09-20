@@ -8,6 +8,8 @@ import { mikroOrmConfig } from './config/mikro-orm.config';
 
 import { AppController } from './app.controller';
 import { TenantModule } from './modules/tenant/tenant.module';
+import { InvoiceModule } from './modules/invoice/invoice.module';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -25,6 +27,8 @@ import { TenantModule } from './modules/tenant/tenant.module';
     UserModule,
     MikroOrmModule.forRootAsync(mikroOrmConfig),
     TenantModule,
+    InvoiceModule,
+    CustomerModule,
   ],
   controllers: [AppController],
   providers: [],

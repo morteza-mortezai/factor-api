@@ -17,6 +17,18 @@ export class Tenant {
   @Property()
   name!: string;
 
+  @Property({ nullable: true })
+  logo!: string | null;
+
+  @Property({ nullable: true })
+  address!: string | null;
+
+  @Property({ nullable: true })
+  email!: string | null;
+
+  @Property({ nullable: true })
+  website!: string | null;
+
   @OneToMany(() => User, (user) => user.tenant, {
     cascade: [Cascade.PERSIST],
     orphanRemoval: true,
