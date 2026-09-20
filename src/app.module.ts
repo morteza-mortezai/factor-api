@@ -5,13 +5,9 @@ import { UserModule } from './modules/user/user.module';
 import { envValidationSchema } from './config/env.validation';
 import { appConfig } from './config/app.config';
 import { mikroOrmConfig } from './config/mikro-orm.config';
-import { EducationModule } from './modules/education/education.module';
-import { JobModule } from './modules/job/job.module';
-import { CompanyModule } from './modules/company/company.module';
-import { LocationModule } from './modules/location/location.module';
-import { SocialProfileModule } from './modules/social-profile/social-profile.module';
-import { IndustryModule } from './modules/industry/industry.module';
+
 import { AppController } from './app.controller';
+import { TenantModule } from './modules/tenant/tenant.module';
 
 @Module({
   imports: [
@@ -28,12 +24,7 @@ import { AppController } from './app.controller';
 
     UserModule,
     MikroOrmModule.forRootAsync(mikroOrmConfig),
-    EducationModule,
-    JobModule,
-    CompanyModule,
-    LocationModule,
-    SocialProfileModule,
-    IndustryModule,
+    TenantModule,
   ],
   controllers: [AppController],
   providers: [],

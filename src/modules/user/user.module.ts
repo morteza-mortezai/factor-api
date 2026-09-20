@@ -3,7 +3,7 @@ import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Certificate } from './entities/certificate.entity';
 import { Interest } from './entities/interest.entity';
 import { Language } from './entities/language.entity';
-import { Person } from './entities/person.entity';
+import { User } from './entities/user.entity';
 import { PersonCertificateRelation } from './entities/person-certificate-relation.entity';
 import { PersonCountryRelation } from './entities/person-country-relation.entity';
 import { PersonEmail } from './entities/person-email.entity';
@@ -26,7 +26,7 @@ import { UserRepository } from './user.repository';
       Certificate,
       Interest,
       Language,
-      Person,
+      User,
       PersonCertificateRelation,
       PersonCountryRelation,
       PersonEmail,

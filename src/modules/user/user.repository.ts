@@ -1,7 +1,7 @@
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { Person } from './entities/person.entity';
+import { User } from './entities/user.entity';
 import { PersonCertificateRelation } from './entities/person-certificate-relation.entity';
 import { PersonCountryRelation } from './entities/person-country-relation.entity';
 import { PersonInterestRelation } from './entities/person-interest-relation.entity';
@@ -34,7 +34,7 @@ export class UserRepository {
   async findAll(filters: PersonListFilters = {}, cursor?: string, limit = 25) {
     const safeLimit = Math.min(Math.max(1, Number(limit) || 25), 100);
 
-    const qb = this.entityManager.createQueryBuilder(Person, 'p').select('p.*');
+    const qb = this.entityManager.createQueryBuilder(User, 'p').select('p.*');
 
     /*
      * Cursor pagination
