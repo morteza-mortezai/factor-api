@@ -12,4 +12,7 @@ export const envValidationSchema = Joi.object({
   DB_USER: Joi.string().default('postgres'),
   DB_PASSWORD: Joi.string().default('postgres'),
   OTP_EXPIRE_SECONDS: Joi.number().default(60),
+
+  SMS_IR_API_KEY: Joi.string().required(),
+  SMS_IR_OTP_TEMPLATE_ID: Joi.number().required(),
 }).unknown(true);

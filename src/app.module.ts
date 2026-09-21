@@ -14,6 +14,7 @@ import { ProductModule } from './modules/product/product.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
 import { UtilModule } from './modules/util/util.module';
+import { NotificationModule } from './modules/notification/notification.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { UtilModule } from './modules/util/util.module';
     AuthModule,
     RoleModule,
     UtilModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [],

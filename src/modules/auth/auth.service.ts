@@ -5,6 +5,7 @@ import { UtilService } from '../util/util.service';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Otp } from './entities/otp.entity';
 import { ConfigService } from '@nestjs/config';
+import { SmsService } from '../notification/sms.service';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +14,7 @@ export class AuthService {
     private utilService: UtilService,
     private em: EntityManager,
     private configService: ConfigService,
+    private smsService: SmsService,
   ) {
     this.expireSeconds =
       this.configService.getOrThrow<number>('OTP_EXPIRE_SECONDS');
@@ -34,17 +36,21 @@ export class AuthService {
       return true;
     }
 
+    //send sms
+    await this.smsService.sendOtp(phone, otp);
+
+    // save record
     const otpRecord = this.em.create(Otp, {
       otp,
       phone: normalizedPhone,
       expireAt,
     });
-    //send sms
+
     await this.em.persistAndFlush(otpRecord);
     return true;
   }
 
-  generateOtpCode() {
+  private generateOtpCode() {
     return randomInt(10_000, 100_000).toString();
   }
 }
