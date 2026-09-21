@@ -14,8 +14,9 @@ export class SmsService {
   ) {
     this.apiKey = this.configService.getOrThrow<string>('SMS_IR_API_KEY');
 
-    this.templateId =
-      this.configService.getOrThrow<number>('SMS_IR_TEMPLATE_ID');
+    this.templateId = this.configService.getOrThrow<number>(
+      'SMS_IR_OTP_TEMPLATE_ID',
+    );
   }
 
   async sendOtp(phone: string, otp: string): Promise<void> {
