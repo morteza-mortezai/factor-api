@@ -10,6 +10,7 @@ import { AppController } from './app.controller';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { InvoiceModule } from './modules/invoice/invoice.module';
 import { CustomerModule } from './modules/customer/customer.module';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CustomerModule } from './modules/customer/customer.module';
     TenantModule,
     InvoiceModule,
     CustomerModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [],
