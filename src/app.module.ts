@@ -11,6 +11,8 @@ import { TenantModule } from './modules/tenant/tenant.module';
 import { InvoiceModule } from './modules/invoice/invoice.module';
 import { CustomerModule } from './modules/customer/customer.module';
 import { ProductModule } from './modules/product/product.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -31,6 +33,8 @@ import { ProductModule } from './modules/product/product.module';
     InvoiceModule,
     CustomerModule,
     ProductModule,
+    AuthModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [],
