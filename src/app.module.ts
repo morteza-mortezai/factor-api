@@ -5,7 +5,7 @@ import { UserModule } from './modules/user/user.module';
 import { envValidationSchema } from './config/env.validation';
 import { appConfig } from './config/app.config';
 import { mikroOrmConfig } from './config/mikro-orm.config';
-
+import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { TenantModule } from './modules/tenant/tenant.module';
 import { InvoiceModule } from './modules/invoice/invoice.module';
@@ -15,6 +15,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
 import { UtilModule } from './modules/util/util.module';
 import { NotificationModule } from './modules/notification/notification.module';
+import { jwtConfig } from './config/jwt.config';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { NotificationModule } from './modules/notification/notification.module';
         },
       },
     }),
-
+    JwtModule.registerAsync(jwtConfig),
     UserModule,
     MikroOrmModule.forRootAsync(mikroOrmConfig),
     TenantModule,

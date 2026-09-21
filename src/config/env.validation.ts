@@ -15,4 +15,8 @@ export const envValidationSchema = Joi.object({
 
   SMS_IR_API_KEY: Joi.string().required(),
   SMS_IR_OTP_TEMPLATE_ID: Joi.number().required(),
+
+  JWT_SECRET: Joi.string().required(),
+  JWT_ACCESS_EXPIRES_IN_MIN: Joi.number().required(),
+  JWT_REFRESH_EXPIRES_IN_DAY: Joi.number().required(),
 }).unknown(true);
