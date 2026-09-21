@@ -1,12 +1,9 @@
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
-import { ulid } from 'ulid';
+import { Entity, OneToOne, Property } from '@mikro-orm/core';
 import { Customer } from './customer.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 
 @Entity()
-export class Individual {
-  @PrimaryKey()
-  id = ulid();
-
+export class Individual extends BaseEntity {
   @Property()
   firstName!: string;
 
@@ -19,7 +16,7 @@ export class Individual {
   @Property({ type: 'string', nullable: true })
   phone?: string;
 
-  @OneToOne(() => Customer, (customer) => customer.company, {
+  @OneToOne(() => Customer, (customer) => customer.individual, {
     deleteRule: 'cascade',
     nullable: true,
     owner: true,

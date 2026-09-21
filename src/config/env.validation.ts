@@ -11,4 +11,5 @@ export const envValidationSchema = Joi.object({
   DB_NAME: Joi.string().default('cyberian'),
   DB_USER: Joi.string().default('postgres'),
   DB_PASSWORD: Joi.string().default('postgres'),
+  OTP_EXPIRE_SECONDS: Joi.number().default(60),
 }).unknown(true);

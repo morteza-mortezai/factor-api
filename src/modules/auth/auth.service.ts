@@ -1,26 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { RequestOtp } from './dto/request-otp.dto';
+import { randomInt } from 'crypto';
+import { UtilService } from '../util/util.service';
+import { EntityManager } from '@mikro-orm/postgresql';
+import { Otp } from './entities/otp.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  private readonly expireSeconds: number;
+  constructor(
+    private utilService: UtilService,
+    private em: EntityManager,
+    private configService: ConfigService,
+  ) {
+    this.expireSeconds =
+      this.configService.getOrThrow<number>('OTP_EXPIRE_SECONDS');
   }
 
-  findAll() {
-    return `This action returns all auth`;
+  async requestOtp(dto: RequestOtp) {
+    const { phone } = dto;
+    const normalizedPhone = this.utilService.normalizePhone(phone);
+
+    const otp = this.generateOtpCode();
+    const expireAt = new Date(Date.now() + this.expireSeconds * 1_000);
+
+    const existingOtp = await this.em.findOne(Otp, {
+      otp,
+      phone: normalizedPhone,
+    });
+
+    if (existingOtp && existingOtp.expireAt > new Date()) {
+      return true;
+    }
+
+    const otpRecord = this.em.create(Otp, {
+      otp,
+      phone: normalizedPhone,
+      expireAt,
+    });
+    //send sms
+    await this.em.persistAndFlush(otpRecord);
+    return true;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
-
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+  generateOtpCode() {
+    return randomInt(10_000, 100_000).toString();
   }
 }

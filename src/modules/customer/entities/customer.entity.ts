@@ -1,14 +1,11 @@
-import { Entity, Enum, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, OneToOne, Property } from '@mikro-orm/core';
 import { CustomerTypeEnum } from '../enum/customer-type.enum';
-import { ulid } from 'ulid';
 import { Individual } from './individual.entity';
 import { Company } from './company.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 
 @Entity()
-export class Customer {
-  @PrimaryKey()
-  id = ulid();
-
+export class Customer extends BaseEntity {
   @Property()
   tenantId!: string;
 

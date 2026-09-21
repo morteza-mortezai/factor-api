@@ -19,7 +19,7 @@ export class User {
   @Property({ nullable: true })
   lastName!: string | null;
 
-  @Property()
+  @Property({ length: 11, type: 'string' })
   phone!: string;
 
   @Property({ default: true })

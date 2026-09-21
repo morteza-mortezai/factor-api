@@ -13,6 +13,7 @@ import { CustomerModule } from './modules/customer/customer.module';
 import { ProductModule } from './modules/product/product.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
+import { UtilModule } from './modules/util/util.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { RoleModule } from './modules/role/role.module';
     ProductModule,
     AuthModule,
     RoleModule,
+    UtilModule,
   ],
   controllers: [AppController],
   providers: [],
