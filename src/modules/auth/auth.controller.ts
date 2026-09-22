@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthService } from './provider/auth.service';
 import { RequestOtp } from './dto/request-otp.dto';
 import { VerifyOtp } from './dto/verify-otp.dto';
 

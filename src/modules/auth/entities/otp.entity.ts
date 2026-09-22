@@ -1,9 +1,20 @@
-import { Entity, OptionalProps, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  OptionalProps,
+  Property,
+  ManyToOne,
+  Unique,
+} from '@mikro-orm/core';
 import { BaseEntity } from '../../../common/entity/base.entity';
+import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @Entity()
+@Unique({ properties: ['tenant', 'phone'] })
 export class Otp extends BaseEntity {
   [OptionalProps]?: 'createdAt' | 'retryCount';
+
+  @ManyToOne(() => Tenant)
+  tenant!: Tenant;
 
   @Property({ type: 'string', length: 11 })
   phone!: string;

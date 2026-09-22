@@ -10,6 +10,11 @@ export class VerifyOtp {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  tenantName!: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
   @Matches(/^\d{5}$/)
   otp!: string;
 }

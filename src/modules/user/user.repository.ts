@@ -1,5 +1,5 @@
-import { EntityManager } from '@mikro-orm/postgresql';
-import { Inject, Injectable } from '@nestjs/common';
+import { EntityRepository } from '@mikro-orm/postgresql';
+import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 
 export interface PersonListFilters {
@@ -16,16 +16,13 @@ export interface PersonCursor {
 }
 
 @Injectable()
-export class UserRepository {
-  constructor(
-    @Inject(EntityManager)
-    private readonly entityManager: EntityManager,
-  ) {}
+export class UserRepository extends EntityRepository<User> {
+  // constructor(private readonly entityManager: EntityManager) {}
 
   async findAll(filters: PersonListFilters = {}, cursor?: string, limit = 25) {
     const safeLimit = Math.min(Math.max(1, Number(limit) || 25), 100);
 
-    const qb = this.entityManager.createQueryBuilder(User, 'p').select('p.*');
+    const qb = this.createQueryBuilder('p').select('p.*');
 
     /*
      * Cursor pagination

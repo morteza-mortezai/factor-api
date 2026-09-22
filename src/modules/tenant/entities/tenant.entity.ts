@@ -1,20 +1,16 @@
 import {
   Entity,
-  PrimaryKey,
   Property,
   OneToMany,
   Collection,
   Cascade,
 } from '@mikro-orm/core';
-import { ulid } from 'ulid';
 import { User } from '../../user/entities/user.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 
 @Entity()
-export class Tenant {
-  @PrimaryKey()
-  id = ulid();
-
-  @Property()
+export class Tenant extends BaseEntity {
+  @Property({ unique: true })
   name!: string;
 
   @Property({ nullable: true })

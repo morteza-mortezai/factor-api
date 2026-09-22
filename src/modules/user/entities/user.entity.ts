@@ -1,17 +1,19 @@
 import {
   Entity,
-  PrimaryKey,
   Property,
-  Index,
+  OptionalProps,
+  Unique,
   ManyToOne,
 } from '@mikro-orm/core';
+import { BaseEntity } from '../../../common/entity/base.entity';
 import { Tenant } from '../../tenant/entities/tenant.entity';
 
 @Entity({ tableName: 'users' })
-@Index({ properties: ['firstName', 'lastName'], name: 'idx_person_first_last' })
-export class User {
-  @PrimaryKey()
-  id!: number;
+@Unique({ properties: ['tenant', 'phone'] })
+export class User extends BaseEntity {
+  [OptionalProps]!: 'createdAt' | 'gender';
+  @ManyToOne(() => Tenant, { deleteRule: 'cascade' })
+  tenant!: Tenant;
 
   @Property({ nullable: true })
   firstName!: string | null;
@@ -24,7 +26,4 @@ export class User {
 
   @Property({ default: true })
   gender!: boolean;
-
-  @ManyToOne(() => Tenant, { deleteRule: 'cascade' })
-  tenant!: Tenant;
 }
