@@ -5,6 +5,7 @@ import { GlobalExceptionFilter } from './common/exeptions/global-exception.filte
 import { ConfigService } from '@nestjs/config';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { getSwaggerConfig } from './config/swagger.config';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const logger = new Logger('APP');
@@ -14,6 +15,8 @@ async function bootstrap() {
 
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(new ResponseInterceptor());
+
+  app.use(cookieParser());
 
   app.useGlobalPipes(
     new ValidationPipe({

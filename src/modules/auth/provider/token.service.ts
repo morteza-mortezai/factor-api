@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { randomBytes, createHash } from 'node:crypto';
-import { CreateAccessToken } from '../interface/accessToken.interface';
+import { CreateAccessToken } from '../interface/auth.interface';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/postgresql';
@@ -49,26 +49,38 @@ export class TokenService {
   }
 
   async createAndStoreRefreshToken(userId: string, tenantId: string) {
-    const hashedToken = this.hashRefreshToken(this.generateRefreshToken());
+    const refreshToken = this.generateRefreshToken();
+    const hashedToken = this.hashRefreshToken(refreshToken);
 
     const refreshTokenExpireMilliSeconds =
       this.refreshTokenExpireDay * 24 * 60 * 60 * 1000;
 
     const expireAt = new Date(Date.now() + refreshTokenExpireMilliSeconds);
 
-    const refreshToken = this.em.create(RefreshToken, {
+    const record = this.em.create(RefreshToken, {
       hashedToken,
       tenant: tenantId,
       userId,
       expireAt,
     });
 
-    await this.em.persistAndFlush(refreshToken);
+    await this.em.persistAndFlush(record);
 
     return { refreshToken };
   }
 
   private hashRefreshToken(token: string): string {
     return createHash('sha256').update(token).digest('hex');
+  }
+
+  async revokeRefreshToken(refreshToken: string) {
+    const hashedRefreshtoken = this.hashRefreshToken(refreshToken);
+    const storedRefreshToken = await this.em.findOne(RefreshToken, {
+      hashedToken: hashedRefreshtoken,
+    });
+    if (!storedRefreshToken) {
+      throw new BadRequestException('RefreshToken not found!');
+    }
+    await this.em.removeAndFlush(storedRefreshToken);
   }
 }
