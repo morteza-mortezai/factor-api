@@ -74,13 +74,22 @@ export class TokenService {
   }
 
   async revokeRefreshToken(refreshToken: string) {
+    const storedRefreshToken = await this.findOneORFail(refreshToken);
+    await this.em.removeAndFlush(storedRefreshToken);
+  }
+
+  async findOneORFail(refreshToken: string) {
     const hashedRefreshtoken = this.hashRefreshToken(refreshToken);
-    const storedRefreshToken = await this.em.findOne(RefreshToken, {
-      hashedToken: hashedRefreshtoken,
-    });
+    const storedRefreshToken = await this.em.findOne(
+      RefreshToken,
+      {
+        hashedToken: hashedRefreshtoken,
+      },
+      { populate: ['tenant', 'user'] },
+    );
     if (!storedRefreshToken) {
       throw new BadRequestException('RefreshToken not found!');
     }
-    await this.em.removeAndFlush(storedRefreshToken);
+    return storedRefreshToken;
   }
 }

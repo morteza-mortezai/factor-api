@@ -141,4 +141,17 @@ export class AuthService {
   private generateOtpCode() {
     return randomInt(10_000, 100_000).toString();
   }
+
+  async refreshToken(refreshToken: string) {
+    const storedRefreshtoken =
+      await this.tokenService.findOneORFail(refreshToken);
+
+    if (storedRefreshtoken.expireAt < new Date()) {
+      throw new BadRequestException('Refresh token is Expired!');
+    }
+
+    const userId = storedRefreshtoken.user.id;
+    const tenantId = storedRefreshtoken.tenant.id;
+    return this.tokenService.createTokens({ userId, tenantId });
+  }
 }
