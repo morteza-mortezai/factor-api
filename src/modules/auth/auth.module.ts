@@ -7,14 +7,17 @@ import { RefreshToken } from './entities/refresh-token.entity';
 import { NotificationModule } from '../notification/notification.module';
 import { UtilModule } from '../util/util.module';
 import { TokenService } from './provider/token.service';
+import { TenantModule } from '../tenant/tenant.module';
+import { AuthCookieService } from './provider/auth-cookie.service';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, TokenService],
+  providers: [AuthService, TokenService, AuthCookieService],
   imports: [
     UtilModule,
     NotificationModule,
     MikroOrmModule.forFeature([Otp, RefreshToken]),
+    TenantModule,
   ],
 })
 export class AuthModule {}

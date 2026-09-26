@@ -7,7 +7,6 @@ import { Otp } from '../entities/otp.entity';
 import { ConfigService } from '@nestjs/config';
 import { SmsService } from '../../notification/sms.service';
 import { VerifyOtp } from '../dto/verify-otp.dto';
-import { UserService } from '../../user/user.service';
 import { TokenService } from './token.service';
 import { TenantService } from '../../tenant/tenant.service';
 import { Tenant } from '../../tenant/entities/tenant.entity';
@@ -22,7 +21,6 @@ export class AuthService {
     private em: EntityManager,
     private configService: ConfigService,
     private smsService: SmsService,
-    private userService: UserService,
     private tokenService: TokenService,
     private tenantService: TenantService,
   ) {

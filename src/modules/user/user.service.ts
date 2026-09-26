@@ -22,17 +22,5 @@ export class UserService {
       throw new BadRequestException('USer not found!');
     }
   }
-  async ensureUserExist(phone: string) {
-    let user = await this.userRepository.findOne({ phone });
-
-    if (!user) {
-      user = this.em.create(User, {
-        phone,
-      });
-
-      await this.em.persistAndFlush(user);
-    }
-
-    return user;
-  }
+ 
 }

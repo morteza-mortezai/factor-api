@@ -23,7 +23,10 @@ export class AuthController {
   }
 
   @Post('verify-otp')
-  async verifyOtp(@Body() dto: VerifyOtp, @Res() res: Response) {
+  async verifyOtp(
+    @Body() dto: VerifyOtp,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const { accessToken, refreshToken } = await this.authService.verifyOtp(dto);
     this.authCookieService.setAuthCookie(res, accessToken, refreshToken);
     return { message: 'Cookie set successfully' };
@@ -31,10 +34,15 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('logout')
-  async logout(@Req() req: AuthenticatedRequest, @Res() res: Response) {
+  async logout(
+    @Req() req: AuthenticatedRequest,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const refreshtoken = req.cookies['refresh_token'];
-    await this.tokenService.revokeRefreshToken(refreshtoken);
-    this.authService.this.authCookieService.clearCookie(res);
+    if (refreshtoken) {
+      await this.tokenService.revokeRefreshToken(refreshtoken);
+    }
+    this.authCookieService.clearCookie(res);
     return { message: 'logout successfully' };
   }
 

@@ -5,7 +5,7 @@ import { GlobalExceptionFilter } from './common/exeptions/global-exception.filte
 import { ConfigService } from '@nestjs/config';
 import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import { getSwaggerConfig } from './config/swagger.config';
-import * as cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const logger = new Logger('APP');

@@ -1,21 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { EntityManager } from '@mikro-orm/postgresql';
 import { Request, Response } from 'express';
 
 @Injectable()
 export class AuthCookieService {
-  private readonly jwtSecret: string;
   private readonly accessTokenExpireMin: number;
   private readonly refreshTokenExpireDay: number;
 
-  constructor(
-    private jwtService: JwtService,
-    private configService: ConfigService,
-    private em: EntityManager,
-  ) {
-    this.jwtSecret = this.configService.getOrThrow<string>('JWT_SECRET');
+  constructor(private configService: ConfigService) {
     this.accessTokenExpireMin = this.configService.getOrThrow<number>(
       'JWT_ACCESS_EXPIRES_IN_MIN',
     );

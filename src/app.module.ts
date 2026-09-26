@@ -29,7 +29,10 @@ import { jwtConfig } from './config/jwt.config';
         },
       },
     }),
-    JwtModule.registerAsync(jwtConfig),
+    JwtModule.registerAsync({
+      ...jwtConfig,
+      global: true,
+    }),
     UserModule,
     MikroOrmModule.forRootAsync(mikroOrmConfig),
     TenantModule,
