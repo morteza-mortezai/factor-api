@@ -1,15 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InvoiceService } from './invoice.service';
-import { CreateInvoiceDto } from './dto/create-invoice.dto';
+import { AddInvoiceItemDto, CreateInvoiceDto } from './dto/create-invoice.dto';
 import { UpdateInvoiceDto } from './dto/update-invoice.dto';
+import { AddInvoiceItemUseCase } from '../application/use-cases/add-invoice-item.use-case';
 
 @Controller('invoice')
 export class InvoiceController {
-  constructor(private readonly invoiceService: InvoiceService) {}
+  constructor(
+    private readonly invoiceService: InvoiceService,
+    private readonly addInvoiceItemUseCase: AddInvoiceItemUseCase,
+  ) {}
 
   @Post()
   create(@Body() createInvoiceDto: CreateInvoiceDto) {
     return this.invoiceService.create(createInvoiceDto);
+  }
+
+  @Post(':id/item')
+  adddInvoiceItem(
+    @Param('id') invoiceId: string,
+    @Body() dto: AddInvoiceItemDto,
+  ) {
+    return this.addInvoiceItemUseCase.execute({ invoiceId, ...dto });
   }
 
   @Get()
