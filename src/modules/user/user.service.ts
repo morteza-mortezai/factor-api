@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PersonListQueryDto } from './dto/users-list-query.dto';
+import { PersonListQueryDto } from './presentation/dto/users-list-query.dto';
 import { UserRepository } from './user.repository';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { User } from './entities/user.entity';
@@ -22,5 +22,4 @@ export class UserService {
       throw new BadRequestException('USer not found!');
     }
   }
- 
 }

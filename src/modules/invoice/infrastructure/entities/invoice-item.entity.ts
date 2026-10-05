@@ -5,7 +5,7 @@ import { Product } from '../../product/entities/product.entity';
 @Entity()
 export class InvoiceItem extends BaseEntity {
   @ManyToOne(() => Product)
-  product!: Product;
+  product!: Product; 
 
   @Property({ type: 'int' })
   quantity!: number;

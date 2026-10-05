@@ -1,5 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from '../user.service';
 import { PersonListQueryDto } from './dto/users-list-query.dto';
 
 @Controller('user')
