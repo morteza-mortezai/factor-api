@@ -1,19 +1,12 @@
-import {
-  Entity,
-  Property,
-  OptionalProps,
-  Unique,
-  ManyToOne,
-} from '@mikro-orm/core';
-import { BaseEntity } from '../../../common/entity/base.entity';
-import { Tenant } from '../../tenant/entities/tenant.entity';
+import { Entity, Property, OptionalProps, Unique } from '@mikro-orm/core';
+import { BaseEntity } from '../../../../common/entity/base.entity';
 
 @Entity({ tableName: 'users' })
-@Unique({ properties: ['tenant', 'phone'] })
+@Unique({ properties: ['tenantId', 'phone'] })
 export class User extends BaseEntity {
   [OptionalProps]!: 'createdAt' | 'gender';
-  @ManyToOne(() => Tenant, { deleteRule: 'cascade' })
-  tenant!: Tenant;
+  @Property({ type: 'string' })
+  tenantId!: string;
 
   @Property({ nullable: true })
   firstName!: string | null;
