@@ -1,11 +1,14 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core';
-import { BaseEntity } from '../../../common/entity/base.entity';
-import { Product } from '../../product/entities/product.entity';
+import { BaseEntity } from '../../../../common/entity/base.entity';
+import { InvoiceOrm } from './invoice-orm.entity';
 
-@Entity()
-export class InvoiceItem extends BaseEntity {
-  @ManyToOne(() => Product)
-  product!: Product; 
+@Entity({ tableName: 'invoice_items' })
+export class InvoiceItemOrm extends BaseEntity {
+  @ManyToOne(() => InvoiceOrm)
+  invoice!: InvoiceOrm;
+
+  @Property({ type: 'string' })
+  productId!: string;
 
   @Property({ type: 'int' })
   quantity!: number;

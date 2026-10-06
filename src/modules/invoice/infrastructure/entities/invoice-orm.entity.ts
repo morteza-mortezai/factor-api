@@ -1,12 +1,17 @@
-import { Entity, Property, Enum, ManyToOne } from '@mikro-orm/core';
-import { BaseEntity } from '../../../common/entity/base.entity';
-import { Customer } from '../../customer/entities/customer.entity';
+import { Entity, Property, Enum, OneToMany, Collection } from '@mikro-orm/core';
+import { BaseEntity } from '../../../../common/entity/base.entity';
 import { CurrencyEnum } from '../enum/currency.enum';
+import { InvoiceItemOrm } from './invoice-item.entity';
 
-@Entity()
-export class Invoice extends BaseEntity {
+@Entity({ tableName: 'invoices' })
+export class InvoiceOrm extends BaseEntity {
   @Property({ type: 'string' })
   tenantId!: string;
+
+  @OneToMany(() => InvoiceItemOrm, (item) => item.invoice, {
+    orphanRemoval: true,
+  })
+  items = new Collection<InvoiceItemOrm>(this);
 
   @Property()
   issueDate!: Date;
@@ -14,8 +19,8 @@ export class Invoice extends BaseEntity {
   @Property()
   dueDate!: Date;
 
-  @ManyToOne(() => Customer)
-  customer!: Customer;
+  @Property({ type: 'string' })
+  customerId!: string;
 
   @Property({ type: 'string' })
   notes!: string;

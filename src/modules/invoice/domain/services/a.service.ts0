@@ -1,0 +1,11 @@
+export class CreditLimitService {
+  canCreateInvoice(
+    customer: Customer,
+    outstandingAmount: Money,
+    newInvoiceAmount: Money,
+  ): boolean {
+    return outstandingAmount
+      .add(newInvoiceAmount)
+      .isLessThanOrEqual(customer.creditLimit);
+  }
+}
