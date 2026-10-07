@@ -16,6 +16,7 @@ import { RoleModule } from './modules/role/role.module';
 import { UtilModule } from './modules/util/util.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { jwtConfig } from './config/jwt.config';
+import { LeadModule } from './modules/lead/lead.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { jwtConfig } from './config/jwt.config';
     RoleModule,
     UtilModule,
     NotificationModule,
+    LeadModule,
   ],
   controllers: [AppController],
   providers: [],
