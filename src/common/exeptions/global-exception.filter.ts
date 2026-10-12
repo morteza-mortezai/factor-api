@@ -32,14 +32,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
           : 'Internal server error';
 
     const logMessage = `${request.method} ${request.url} ${status}`;
-    if (status === HttpStatus.NOT_FOUND) {
-      this.logger.warn(logMessage);
-    } else {
-      this.logger.error(
-        logMessage,
-        exception instanceof Error ? exception.stack : String(exception),
-      );
-    }
+
+    this.logger.error(
+      logMessage,
+      exception instanceof Error ? exception.stack : String(exception),
+    );
 
     response.status(status).json({
       statusCode: status,
