@@ -19,7 +19,11 @@ export interface PersonCursor {
 export class UserRepository extends EntityRepository<User> {
   // constructor(private readonly entityManager: EntityManager) {}
 
-  async findAll(filters: PersonListFilters = {}, cursor?: string, limit = 25) {
+  async findAllPaginated(
+    filters: PersonListFilters = {},
+    cursor?: string,
+    limit = 25,
+  ) {
     const safeLimit = Math.min(Math.max(1, Number(limit) || 25), 100);
 
     const qb = this.createQueryBuilder('p').select('p.*');

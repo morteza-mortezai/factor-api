@@ -1,29 +1,31 @@
 import { Entity, Property, Enum, ManyToOne } from '@mikro-orm/core';
 import { BaseEntity } from '../../../common/entity/base.entity';
 import { Customer } from '../../customer/entities/customer.entity';
-import { CurrencyEnum } from '../enum/currency.enum';
+import { CurrencyEnum } from '../../invoice/enum/currency.enum';
+import { User } from '../../user/entities/user.entity';
 
 @Entity()
-export class Invoice extends BaseEntity {
+export class Deal extends BaseEntity {
   @Property({ type: 'string' })
   tenantId!: string;
 
-  @Property({type:'string'})
-  title!:string
+  @Property({ type: 'string' })
+  title!: string;
 
-  @Property({type:'string'})
-  description!:string
+  @Property({ type: 'string' })
+  description!: string;
 
-  @Property({type:'numeric',nullable:true})
-  amount?:number
- 
-  stage
-  probability
+  @Property({ type: 'numeric', nullable: true })
+  amount?: number;
 
-  @Property({type:'numeric',nullable:true})
-  expected_close_date ?: Date;
-  
-  assigned_to_id      -> users.id
+  // stage
+  // probability
+
+  @Property({ type: 'numeric', nullable: true })
+  expected_close_date?: Date;
+
+  @ManyToOne(() => User)
+  assigned_to_id!: User;
 
   @Property()
   dueDate!: Date;
