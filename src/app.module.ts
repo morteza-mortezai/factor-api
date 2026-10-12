@@ -17,6 +17,7 @@ import { UtilModule } from './modules/util/util.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { jwtConfig } from './config/jwt.config';
 import { LeadModule } from './modules/lead/lead.module';
+import { DealModule } from './modules/deal/deal.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { LeadModule } from './modules/lead/lead.module';
     UtilModule,
     NotificationModule,
     LeadModule,
+    DealModule,
   ],
   controllers: [AppController],
   providers: [],
