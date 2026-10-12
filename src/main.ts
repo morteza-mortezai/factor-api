@@ -34,7 +34,7 @@ async function bootstrap() {
   const APP_PORT = config.getOrThrow<number>('app.port') ?? 4000;
 
   await app.listen(APP_PORT, '0.0.0.0', () => {
-    logger.log(`Application is running on: http://localhost:${APP_PORT}`);
+    logger.log(`Application is * running on: http://localhost:${APP_PORT}`);
     logger.log(`Swagger documentation: http://localhost:${APP_PORT}/docs`);
   });
 }
