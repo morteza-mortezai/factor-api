@@ -22,5 +22,4 @@ export class UserService {
       throw new BadRequestException('USer not found!');
     }
   }
- 
 }
