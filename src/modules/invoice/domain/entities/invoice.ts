@@ -22,6 +22,25 @@ export class Invoice {
     private paidAmount: number = 0,
   ) {}
 
+  toSnapshot() {
+    return {
+      id: this.id,
+      tenantId: this.tenantId,
+      customerId: this.customerId,
+      currency: this.currency,
+      issueDate: this.issueDate,
+      dueDate: this.dueDate,
+      notes: this.notes,
+      subtotal: this.subtotal,
+      total: this.total,
+      balance: this.balance,
+      discount: this.discount,
+      tax: this.tax,
+      paidAmount: this.paidAmount,
+      items: this.items.map((item) => item.toSnapshot()),
+    };
+  }
+
   addItem(item: InvoiceItem): void {
     this.items.push(item);
     this.recalculate();

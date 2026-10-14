@@ -9,6 +9,16 @@ export class InvoiceItem {
     this.validate();
   }
 
+  toSnapshot() {
+    return {
+      id: this.id,
+      productId: this.productId,
+      quantity: this.quantity,
+      unitPrice: this.unitPrice,
+      discount: this.discount,
+    };
+  }
+
   get total(): number {
     return this.unitPrice * (this.quantity - this.discount);
   }
