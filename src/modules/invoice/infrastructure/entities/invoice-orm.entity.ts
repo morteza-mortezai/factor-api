@@ -1,6 +1,6 @@
 import { Entity, Property, Enum, OneToMany, Collection } from '@mikro-orm/core';
 import { BaseEntity } from '../../../../common/entity/base.entity';
-import { CurrencyEnum } from '../enum/currency.enum';
+import { CurrencyEnum } from '../../domain/enum/currency.enum';
 import { InvoiceItemOrm } from './invoice-item-orm.entity';
 
 @Entity({ tableName: 'invoices' })
@@ -22,8 +22,8 @@ export class InvoiceOrm extends BaseEntity {
   @Property({ type: 'string' })
   customerId!: string;
 
-  @Property({ type: 'string' })
-  notes!: string;
+  @Property({ type: 'string', nullable: true })
+  notes?: string | null;
 
   @Enum(() => CurrencyEnum)
   currency!: CurrencyEnum;

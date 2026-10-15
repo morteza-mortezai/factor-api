@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { RefreshToken } from '../entities/refresh-token.entity';
+import { User } from '../../user/infrastructure/entities/user.entity';
 
 @Injectable()
 export class TokenService {
@@ -56,11 +57,11 @@ export class TokenService {
       this.refreshTokenExpireDay * 24 * 60 * 60 * 1000;
 
     const expireAt = new Date(Date.now() + refreshTokenExpireMilliSeconds);
-
+    const user = this.em.getReference(User, userId);
     const record = this.em.create(RefreshToken, {
       hashedToken,
       tenant: tenantId,
-      userId,
+      user,
       expireAt,
     });
 

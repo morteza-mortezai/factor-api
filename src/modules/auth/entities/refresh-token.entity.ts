@@ -7,7 +7,7 @@ import {
 } from '@mikro-orm/core';
 import { BaseEntity } from '../../../common/entity/base.entity';
 import { Tenant } from '../../tenant/entities/tenant.entity';
-import { User } from '../../user/entities/user.entity';
+import { User } from '../../user/infrastructure/entities/user.entity';
 
 @Entity()
 @Unique({ properties: ['tenant', 'user'] })

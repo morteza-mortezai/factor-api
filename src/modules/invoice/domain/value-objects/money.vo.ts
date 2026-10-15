@@ -4,10 +4,12 @@ export class Money {
   constructor(
     readonly amount: number,
     readonly currency: CurrencyEnum,
-  ) {
-    if (amount < 0) {
-      throw new Error('Money cannot be negative');
-    }
+  ) {}
+
+  static create(amount: number, currency: CurrencyEnum) {
+    if (amount < 0) throw new Error('Amount cannot be negative');
+    if (!currency) throw new Error('Currency is required');
+    return new Money(amount, currency);
   }
 
   add(other: Money): Money {

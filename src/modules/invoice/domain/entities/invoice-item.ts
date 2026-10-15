@@ -1,10 +1,12 @@
+import { Money } from '../value-objects/money.vo';
+
 export class InvoiceItem {
   constructor(
     readonly id: string,
     readonly productId: string,
     private quantity: number,
-    private unitPrice: number,
-    private discount: number,
+    private unitPrice: Money,
+    private discount: Money,
   ) {
     this.validate();
   }
@@ -20,7 +22,7 @@ export class InvoiceItem {
   }
 
   get total(): number {
-    return this.unitPrice * (this.quantity - this.discount);
+    return this.unitPrice.amount * (this.quantity - this.discount.amount);
   }
 
   changeQuantity(quantity: number): void {
@@ -34,8 +36,8 @@ export class InvoiceItem {
     if (price < 0) {
       throw new Error('Price cannot be negative');
     }
-
-    this.unitPrice = price;
+    const moneyUnit = this.unitPrice.currency;
+    this.unitPrice = Money.create(price, moneyUnit);
   }
 
   applyDiscount(discount: number): void {
@@ -43,11 +45,12 @@ export class InvoiceItem {
       throw new Error('Discount cannot be negative');
     }
 
-    if (discount > this.quantity * this.unitPrice) {
+    if (discount > this.quantity * this.unitPrice.amount) {
       throw new Error('Discount exceeds item value');
     }
 
-    this.discount = discount;
+    const discountUnit = this.discount.currency;
+    this.discount = Money.create(discount, discountUnit);
   }
 
   private validate(): void {
@@ -55,11 +58,11 @@ export class InvoiceItem {
       throw new Error('Quantity must be greater than zero');
     }
 
-    if (this.unitPrice < 0) {
+    if (this.unitPrice.amount < 0) {
       throw new Error('Price cannot be negative');
     }
 
-    if (this.discount < 0) {
+    if (this.discount.amount < 0) {
       throw new Error('Discount cannot be negative');
     }
   }
