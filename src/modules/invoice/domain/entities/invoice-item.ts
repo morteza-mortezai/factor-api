@@ -25,6 +25,10 @@ export class InvoiceItem {
     return this.unitPrice.amount * (this.quantity - this.discount.amount);
   }
 
+  get getDiscount(): number {
+    return this.discount.amount;
+  }
+
   changeQuantity(quantity: number): void {
     if (quantity <= 0) {
       throw new Error('Quantity can not be zero');

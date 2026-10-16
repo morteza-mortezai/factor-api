@@ -43,7 +43,7 @@ export class InvoiceMapper {
 
     const entity = new InvoiceOrm();
 
-    entity.id = snapshot.id;
+    entity.id = snapshot.id.value;
     entity.tenantId = snapshot.tenantId;
     entity.customerId = snapshot.customerId;
     entity.currency = snapshot.currency;
@@ -65,9 +65,9 @@ export class InvoiceMapper {
       itemEntity.id = item.id;
       itemEntity.productId = item.productId;
       itemEntity.quantity = item.quantity;
-      itemEntity.unitPrice = item.unitPrice;
-      itemEntity.discount = item.discount;
-      itemEntity.total = item.total;
+      itemEntity.unitPrice = item.unitPrice.amount;
+      itemEntity.discount = item.discount.amount;
+      // itemEntity.total = item.total;
       itemEntity.invoice = entity;
 
       entity.items.add(itemEntity);

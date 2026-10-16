@@ -2,14 +2,20 @@ import { CurrencyEnum } from '../../domain/enum/currency.enum';
 
 export interface CreateInvoiceUseCaseDTO {
   tenantId: string;
-  items: [];
+  items: CreateInvoiceItemDTO[];
   issueDate: Date;
   dueDate: Date;
   customerId: string;
   notes: string;
   currency: CurrencyEnum;
-  subtotal: number;
-  total: number;
-  tax: number;
+  taxPercent: number;
   discount: number;
+}
+
+export interface CreateInvoiceItemDTO {
+  productId: string;
+  quantity: number;
+  unitPrice: number;
+  discount: number;
+  currency: CurrencyEnum;
 }

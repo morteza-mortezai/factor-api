@@ -1,17 +1,20 @@
 import { CurrencyEnum } from '../enum/currency.enum';
+import { InvoiceId } from '../value-objects/invoice-id.vo';
+import { InvoiceStatus } from '../value-objects/invoice-status.vo';
 import { InvoiceItem } from './invoice-item';
 
 export class Invoice {
-  private items: InvoiceItem[] = [];
+  private _domainEvents: any[] = [];
   constructor(
-    private readonly id: string,
+    private readonly id: InvoiceId,
     private readonly tenantId: string,
     private readonly customerId: string,
     private readonly currency: CurrencyEnum,
-
+    private items: InvoiceItem[],
     private issueDate: Date,
     private dueDate: Date,
 
+    private status: InvoiceStatus,
     private notes: string | null = null,
 
     private subtotal: number = 0,
@@ -21,6 +24,49 @@ export class Invoice {
     private tax: number = 0,
     private paidAmount: number = 0,
   ) {}
+
+  static create(
+    customerId: string,
+    tenantId: string,
+    currency: CurrencyEnum,
+    issueDate: Date,
+    dueDate: Date,
+    items: InvoiceItem[],
+    taxPercent: number,
+    notes: string | null = null,
+  ) {
+    if (items.length == 0) {
+      throw new Error('Invoice must have at least on item !');
+    }
+    const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+    const discount = items.reduce((sum, item) => sum + item.getDiscount, 0);
+    const grandTotal = subtotal - discount;
+    const tax = taxPercent * grandTotal;
+    const total = grandTotal + tax;
+    const paidAmount = 0;
+    const balance = total;
+
+    const invoice = new Invoice(
+      InvoiceId.create(),
+      tenantId,
+      customerId,
+      currency,
+      items,
+      issueDate,
+      dueDate,
+      InvoiceStatus.draft(),
+      notes,
+      subtotal,
+      total,
+      balance,
+      discount,
+      tax,
+      paidAmount,
+    );
+
+    // invoice.
+    return invoice;
+  }
 
   toSnapshot() {
     return {
